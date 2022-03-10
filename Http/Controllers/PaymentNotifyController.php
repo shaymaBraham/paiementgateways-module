@@ -60,8 +60,8 @@ class PaymentNotifyController extends Controller
 
         $currency='EUR';
 
-        $currency = $this->paiementConfig('currency');
-        $currency_symbol=$this->paiementConfig('symbole_devise');
+        $currency = config('paiementgateways.paiementConfig.currency');
+        $currency_symbol=config('paiementgateways.paiementConfig.symbole_devise');
         if (($currency=null) || ($currency==''))
         {
             $currency='EUR';
@@ -133,8 +133,8 @@ class PaymentNotifyController extends Controller
         $transaction_id=$request->input('tr');
 
 
-        $currency = $this->paiementConfig('currency');
-        $currency_symbol=$this->paiementConfig('symbole_devise');
+        $currency = config('paiementgateways.paiementConfig.currency');
+        $currency_symbol=config('paiementgateways.paiementConfig.symbole_devise');
         if (($currency=null) || ($currency==''))
         {
             $currency='EUR';
@@ -330,8 +330,8 @@ class PaymentNotifyController extends Controller
 
 
 
-                $currency = $this->paiementConfig('currency');
-                $currency_symbol=$this->paiementConfig('symbole_devise');
+                $currency = config('paiementgateways.paiementConfig.currency');
+                $currency_symbol=config('paiementgateways.paiementConfig.symbole_devise');
                 if (($currency=null) || ($currency==''))
                 {
                     $currency='EUR';
@@ -683,10 +683,6 @@ class PaymentNotifyController extends Controller
     }
 
 
-    function paiementConfig($key) {
-
-        return config('paiementgateways.paiementConfig.'.$key);
     
-    }
 
 }

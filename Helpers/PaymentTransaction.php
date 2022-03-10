@@ -318,8 +318,8 @@ class PaymentTransaction
 
 
 
-        $currency = $this->paiementConfig('currency');
-        $currency_symbol=$this->paiementConfig('symbole_devise');
+        $currency = config('paiementgateways.paiementConfig.currency');
+        $currency_symbol=config('paiementgateways.paiementConfig.symbole_devise');
         if (($currency=null) || ($currency==''))
         {
             $currency='EUR';
@@ -404,10 +404,5 @@ class PaymentTransaction
         ]);
     }
 
-    function paiementConfig($key) {
-
-        return config('paiementgateways.paiementConfig.'.$key);
     
-    }
-
 }
