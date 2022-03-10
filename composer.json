@@ -19,11 +19,7 @@
         }
     },
     "autoload": {
-        "files": [
-            
-            "app/Modules/PaiementGateways/Utilities/helper.php"
-            
-        ],
+        
         "psr-4": {
             "Modules\\PaiementGateways\\": ""
         }
