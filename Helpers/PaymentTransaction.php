@@ -12,7 +12,7 @@ use GuzzleHttp\Client;
 //use App\Models\Transaction;
 use Modules\PaiementGateways\Entities\ModePaiement;
 use Modules\PorteMonnaie\Entities\Item;
-use Modules\PorteMonnaie\Controllers\PorteMonnaieController;
+use Modules\PorteMonnaie\Http\Controllers\PorteMonnaieController;
 use Modules\PaiementGateways\Entities\Paiement;
 
 

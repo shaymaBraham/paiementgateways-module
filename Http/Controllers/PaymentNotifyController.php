@@ -12,7 +12,7 @@ use Modules\PaiementGateways\Entities\Paiement;
 
 use Modules\PaiementGateways\Helpers\PaymentTransaction;
 use Modules\PorteMonnaie\Entities\Item;
-use Modules\PorteMonnaie\Controllers\PorteMonnaieController;
+use Modules\PorteMonnaie\Http\Controllers\PorteMonnaieController;
 use Illuminate\Support\Facades\File;
 use GuzzleHttp\Client as ClientGuzzle;
 use Srmklive\PayPal\Services\ExpressCheckout;
