@@ -22,7 +22,7 @@ class CreatePaiementsTable extends Migration
             $table->tinyInteger('status')->default(0);
             $table->dateTime('date');
             $table->integer('mode_paiement')->nullable();
-            
+            $table->string('reference');
             $table->timestamps();
         });
     }
