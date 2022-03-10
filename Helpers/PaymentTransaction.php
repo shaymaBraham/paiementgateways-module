@@ -94,11 +94,12 @@ class PaymentTransaction
                     //PortMonnaieHelper::updateSolde($transaction->user,$transaction);
 
                     $amount=$transaction->montant;
+                    $payment_method  = ModePaiement::find($transaction->mode_paiement);
 
                     $meta=[
-                        'title' => 'Alimentation via paypal',
-                        'source'=>'paypal',
-                        'origine' => new \StdClass(),
+                        'title' => 'Alimentation via Gateway',
+                        'source'=>$payment_method->libelle,
+                        'origine' => $transaction->payment_response,
 
 
                     ];
