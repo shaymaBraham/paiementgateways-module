@@ -39,6 +39,7 @@ class PaiementGatewaysController extends Controller
 
     ]);
     
+    
     $paiement->reference='TR'.sprintf("%06d", $paiement->id);
     $paiement->save();
 
