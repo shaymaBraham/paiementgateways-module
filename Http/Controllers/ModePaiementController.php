@@ -214,6 +214,7 @@ class ModePaiementController extends Controller
 
         $mode=ModePaiement::find($id);
         $mode->delete();
+        return back();
     }
 
     private function saveEnvPayPal($params)
