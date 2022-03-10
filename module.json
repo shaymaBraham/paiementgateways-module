@@ -1,0 +1,15 @@
+{
+    "name": "PaiementGateways",
+    "alias": "paiementgateways",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\PaiementGateways\\Providers\\PaiementGatewaysServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "Utilities\\helper.php"
+    ],
+    "requires": []
+}

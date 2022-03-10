@@ -1,0 +1,43 @@
+<?php
+
+namespace Modules\PaiementGateways\Entities;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+class Paiement extends Model
+{
+    use HasFactory;
+
+    public $table = 'paiements';
+
+    protected $fillable = [ 'user_id',
+                            'model_id',
+                            'model',
+                            'status',
+                            'date',
+                            'mode_paiement',
+                            'montant',
+                            'reference',
+                            'payment_response',
+                            'session_id'];
+
+    public const STATUS_SELECT = [
+        0 => 'En cours de paiement',
+        1 => 'Payée et validée',
+        2 => 'Echec de paiement',
+        3 => 'En attendant',
+        4 => 'Annulation de paiement'
+    ];
+
+    public function mode_paiement()
+    {
+        return $this->hasOne(ModePaiement::class, 'id', 'mode_paiement')->withTrashed();
+    }
+
+    
+    public function user()
+    {
+        return $this->hasOne(User::class, 'id', 'user_id')->withTrashed();
+    }
+}

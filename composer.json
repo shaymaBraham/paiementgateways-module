@@ -1,0 +1,26 @@
+{
+    "name": "insightful/paiementgateways-module",
+    "description": "",
+    "version": "1.0.0",
+    "type": "laravel-module",
+    "authors": [
+        {
+            "name": "Insightfull",
+            "email": "shaymaabh@gmail.com"
+        }
+    ],
+   
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\PaiementGateways\\": ""
+        }
+    }
+}
