@@ -15,8 +15,8 @@ Route::prefix('paiementgateways')->group(function() {
  
     
   // mode de paiement
-  Route::delete('mode-paiement/destroy', 'ModePaiementController@destroy')->name('mode-paiement.destroy');
-  Route::resource('mode-paiement', 'ModePaiementController', ['except' => ['update','destroy']]);
+  Route::delete('mode-paiement/delete/{id}', 'ModePaiementController@delete')->name('mode-paiement.delete');
+  Route::resource('mode-paiement', 'ModePaiementController', ['except' => ['update']]);
   Route::post('mode-paiement/update', 'ModePaiementController@update')->name('mode-paiement.update');
 });
 

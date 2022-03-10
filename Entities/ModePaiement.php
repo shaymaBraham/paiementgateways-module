@@ -33,6 +33,9 @@ class ModePaiement extends Model
         'code_html'
         
     ];
+
+  
+
     
     
 }

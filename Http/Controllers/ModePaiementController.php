@@ -208,7 +208,7 @@ class ModePaiementController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function destroy($id)
+    public function delete($id)
     {
         //
 
