@@ -16,8 +16,8 @@ class CreatePaiementsTable extends Migration
         Schema::create('paiements', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
-            $table->integer('model_id');
-            $table->string('model');
+            $table->integer('model_id')->nullable();
+            $table->string('model')->nullable();
             $table->float('montant');
             $table->tinyInteger('status')->default(0);
             $table->dateTime('date');
