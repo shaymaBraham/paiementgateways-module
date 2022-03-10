@@ -103,10 +103,23 @@ class PaymentTransaction
 
                     ];
                    
-
+                    
                     $paiement=new PorteMonnaieController();
 
                     $paiement->alimentation($transaction->user,$amount,$meta);
+
+                    ///if(model exists)=> ( plus transaction de achat  )
+
+                    if($transaction->model != NULL && $transaction->model_id != NULL)
+                    {
+                        $model=get_class($transaction->model);
+
+                        $produit=$model::find($transaction->model_id);
+                    
+
+                        $paiement->buy_product($produit);
+                    }
+                    
                // }
 
                 $this->sendSuccessDirect($transaction);

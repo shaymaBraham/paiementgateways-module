@@ -21,7 +21,7 @@ use Modules\PaiementGateways\Entities\ModePaiement;
 class PaiementGatewaysController extends Controller
 {
    
-  public function depositWithGateway($user,$amount,$model,$model_id,$id_mode_paiement)
+  public function depositWithGateway($user,$amount,$id_mode_paiement,$model=NULL,$model_id=NULL)
   {
 
        
