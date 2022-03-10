@@ -1,11 +1,11 @@
 {
-    "name": "insightful/paiementgateways-module",
+    "name": "shayma/paiementgateways-module",
     "description": "",
     "version": "1.0.0",
     "type": "laravel-module",
     "authors": [
         {
-            "name": "Insightfull",
+            "name": "shayma brahem",
             "email": "shaymaabh@gmail.com"
         }
     ],
