@@ -20,7 +20,7 @@ class ModePaiementController extends Controller
     public function index()
     {
         $modesPaiement=ModePaiement::all();
-        return view('paiementgateways::index',compact('modesPaiement'));
+        return view('paiementgateways::modePaiement.index',compact('modesPaiement'));
     }
 
     /**
@@ -29,7 +29,7 @@ class ModePaiementController extends Controller
      */
     public function create()
     {
-        return view('paiementgateways::create');
+        return view('paiementgateways::modePaiement.create');
     }
 
     /**
@@ -87,7 +87,7 @@ class ModePaiementController extends Controller
                 $this->saveEnvStripe($params);
         }
 
-        //return redirect();
+        return redirect()->route('mode-paiement.index');
     }
 
 
@@ -110,7 +110,7 @@ class ModePaiementController extends Controller
     {
 
         $modePaiement=ModePaiement::findOrFail($id);
-        return view('paiementgateways::show',compact('modePaiement'));
+        return view('paiementgateways::modePaiement.show',compact('modePaiement'));
     }
 
     /**
@@ -122,7 +122,7 @@ class ModePaiementController extends Controller
     {
 
         $modePaiement=ModePaiement::findOrFail($id);
-        return view('paiementgateways::edit',compact('modePaiement'));
+        return view('paiementgateways::modePaiement.edit',compact('modePaiement'));
     }
 
     /**
@@ -200,7 +200,7 @@ class ModePaiementController extends Controller
       $mode->save();
 
 
-       return redirect()->route('admin.mode-paiement.index');
+       return redirect()->route('mode-paiement.index');
     }
 
     /**
