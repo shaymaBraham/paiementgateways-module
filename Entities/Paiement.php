@@ -4,6 +4,7 @@ namespace Modules\PaiementGateways\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\User;
 
 class Paiement extends Model
 {
