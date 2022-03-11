@@ -33,12 +33,12 @@ class Paiement extends Model
 
     public function mode_paiement()
     {
-        return $this->hasOne(ModePaiement::class, 'id', 'mode_paiement')->withTrashed();
+        return $this->hasOne(ModePaiement::class, 'id', 'mode_paiement');
     }
 
     
     public function user()
     {
-        return $this->hasOne(User::class, 'id', 'user_id')->withTrashed();
+        return $this->hasOne(User::class, 'id', 'user_id');
     }
 }
