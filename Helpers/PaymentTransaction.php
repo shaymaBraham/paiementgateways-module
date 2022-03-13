@@ -309,14 +309,6 @@ class PaymentTransaction
         {
             return response()->json(['message'=>'Ressource Not Found'],403);
         }
-        $payment_method  = ModePaiement::find($ModePaiement_id);
-        if (!$payment_method)
-        {
-            return response()->json(['message'=>'Ressource Not Found'],403);
-        }
-
-
-
 
         $currency = config('paiementgateways.paiementConfig.currency');
         $currency_symbol=config('paiementgateways.paiementConfig.symbole_devise');
@@ -337,60 +329,73 @@ class PaymentTransaction
 
         $transaction_prefix = '';
 
-
-
-
-
-        $link='';
-        $link_payment='';
-        $append_html='';
-
-
-        $html=$payment_method->code_html;
-        $templatepayment="paiementgateways::payment.payment";
-        $append_html = view($templatepayment,compact('html','transaction'))->render();
-
-        $payment_parametres=new \stdClass();
-        if($payment_method->parametres != NULL)
+        if($ModePaiement_id != 0)
         {
-            $params=json_decode($payment_method->parametres);
-            foreach ($params as $key =>  $fieldarray)
+            $payment_method  = ModePaiement::find($ModePaiement_id);
+            if (!$payment_method)
             {
-                $field=json_decode(json_encode($fieldarray), FALSE);
-                $payment_parametres->{$field->key}=$field->value;
+                return response()->json(['message'=>'Ressource Not Found'],403);
             }
+    
+
+            $link='';
+            $link_payment='';
+            $append_html='';
+    
+    
+            $html=$payment_method->code_html;
+            $templatepayment="paiementgateways::payment.payment";
+            $append_html = view($templatepayment,compact('html','transaction'))->render();
+    
+            $payment_parametres=new \stdClass();
+            if($payment_method->parametres != NULL)
+            {
+                $params=json_decode($payment_method->parametres);
+                foreach ($params as $key =>  $fieldarray)
+                {
+                    $field=json_decode(json_encode($fieldarray), FALSE);
+                    $payment_parametres->{$field->key}=$field->value;
+                }
+            }
+            if (isset($payment_parametres->code_dev))
+            {
+    
+                $code_dev=$payment_parametres->code_dev;
+    
+    
+    
+    
+                if($code_dev=='PAYPAL')
+                {
+                    $html='';
+                    $link_payment=route('paypal.express-checkout').'?transaction_id='.$transaction->id;
+    
+                }
+    
+                if($code_dev=='STRIPE')
+                {
+                    $html='';
+                    $templatepayment="paiementgateways::payment.stripev3";
+                    $link='';
+                    $linkp=$transaction->id;
+    
+                    $append_html = view($templatepayment,
+                    compact(
+                        'transaction',
+                        'currency'
+                    ))->render();
+    
+                }
+            }
+    
         }
-        if (isset($payment_parametres->code_dev))
-        {
-
-            $code_dev=$payment_parametres->code_dev;
-
-
-
-
-            if($code_dev=='PAYPAL')
-            {
-                $html='';
-                $link_payment=route('paypal.express-checkout').'?transaction_id='.$transaction->id;
-
-            }
-
-            if($code_dev=='STRIPE')
-            {
-                $html='';
-                $templatepayment="paiementgateways::payment.stripev3";
-                $link='';
-                $linkp=$transaction->id;
-
-                $append_html = view($templatepayment,
-                compact(
-                    'transaction',
-                    'currency'
-                ))->render();
-
-            }
+        else{
+            $html='<h4> votre paiement par portemonnaie est passé avec succée </h4>';
         }
-        //\LogActivity::addToLog("ADD TRANSACTION CUSTOMER",['transaction_id'=>$transaction->id],$transaction);
+      
+
+
+
        
         return response()->json([
             'transaction' => $transaction,

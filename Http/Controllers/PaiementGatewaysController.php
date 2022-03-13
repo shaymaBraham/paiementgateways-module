@@ -42,8 +42,9 @@ class PaiementGatewaysController extends Controller
     
     $paiement->reference='TR'.sprintf("%06d", $paiement->id);
     $paiement->save();
-
+  
     return PaymentTransaction::directpayment($paiement->id,$id_mode_paiement);
+
   }
     
 }
