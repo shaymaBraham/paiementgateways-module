@@ -405,9 +405,7 @@ class PaymentTransaction
 
             return response()->json([
                 'transaction' => $transaction,
-                
                 'html'=>$html,
-               
                 'currency'=>$currency,
                 'currency_symbol'=>$currency_symbol,
                 'success' => 1
