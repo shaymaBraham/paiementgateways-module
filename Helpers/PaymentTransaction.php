@@ -336,7 +336,7 @@ class PaymentTransaction
             {
                 return response()->json(['message'=>'Mode paiement Not Found'],403);
             }
-    
+            
 
             $link='';
             $link_payment='';
@@ -387,26 +387,38 @@ class PaymentTransaction
     
                 }
             }
-    
+
+            return response()->json([
+                'transaction' => $transaction,
+                'payment_method'=>$payment_method,
+                'html'=>$html,
+                'link_payment'=>$link_payment,
+                'append_html'=>$append_html,
+                'currency'=>$currency,
+                'currency_symbol'=>$currency_symbol,
+                'success' => 1
+            ]);
         }
         else{
+
             $html='<h4> votre paiement par portemonnaie est passé avec succée </h4>';
+
+            return response()->json([
+                'transaction' => $transaction,
+                
+                'html'=>$html,
+               
+                'currency'=>$currency,
+                'currency_symbol'=>$currency_symbol,
+                'success' => 1
+            ]);
         }
       
 
 
 
        
-        return response()->json([
-            'transaction' => $transaction,
-            'payment_method'=>$payment_method,
-            'html'=>$html,
-            'link_payment'=>$link_payment,
-            'append_html'=>$append_html,
-            'currency'=>$currency,
-            'currency_symbol'=>$currency_symbol,
-            'success' => 1
-        ]);
+        
     }
 
     
