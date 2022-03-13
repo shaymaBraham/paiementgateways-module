@@ -334,7 +334,7 @@ class PaymentTransaction
             $payment_method  = ModePaiement::find($ModePaiement_id);
             if (!$payment_method)
             {
-                return response()->json(['message'=>'Ressource Not Found'],403);
+                return response()->json(['message'=>'Mode paiement Not Found'],403);
             }
     
 
