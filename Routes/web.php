@@ -16,8 +16,11 @@ Route::prefix('paiementgateways')->group(function() {
     
   // mode de paiement
   Route::delete('mode-paiement/delete/{id}', 'ModePaiementController@delete')->name('mode-paiement.delete');
-  Route::resource('mode-paiement', 'ModePaiementController', ['except' => ['update']]);
+  Route::resource('mode-paiement', 'ModePaiementController', ['except' => ['update','get_mode']]);
   Route::post('mode-paiement/update', 'ModePaiementController@update')->name('mode-paiement.update');
+
+  Route::post('mode-paiement/get_mode', 'ModePaiementController@get_mode')->name('mode-paiement.get_mode');
+
 });
 
   //paiement notification
