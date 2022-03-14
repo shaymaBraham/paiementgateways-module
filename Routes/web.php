@@ -41,6 +41,6 @@ Route::group(['prefix' => 'payment', 'as' => '', 'middleware' => []], function (
     Route::post('stripe/postv3', 'PaymentNotifyController@stripePostv3')->name('stripe.postv3');
     Route::get('stripe/stripe-checkout-success', 'PaymentNotifyController@expressCheckoutSuccessStripe');
   
-    Route::get('transaction/success/{hash}', 'PaymentNotifyController@success')->name('transaction.success');
-    Route::get('transaction/refuse/{hash}', 'PaymentNotifyController@refuse')->name('transaction.refuse');
+    Route::get('transaction/success/{hash}/{redirect_url}', 'PaymentNotifyController@success')->name('transaction.success');
+    Route::get('transaction/refuse/{hash}/{redirect_url}', 'PaymentNotifyController@refuse')->name('transaction.refuse');
   });
