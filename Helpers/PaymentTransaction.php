@@ -104,12 +104,16 @@ class PaymentTransaction
 
 
                     ];
-                   
-                    
+                    $path=storage_path()."/paypam/".$dt->year."/".$dt->month."/".$dt->day;
+                    if(!File::isDirectory($path)){
+                        File::makeDirectory($path, 0777, true, true);
+                    }
+                    $filename= "/paypam/".$dt->year."/".$dt->month."/".$dt->day."/buyingproduct_".$dt->hour."_".$dt->minute."_".$dt->second.".log";
+
                     $paiement=new PorteMonnaieController();
 
                     
-
+                    $paiement->alimentation($transaction->user,$amount,$meta);
                     ///if(model exists)=> ( plus transaction de achat  )
 
                    
@@ -117,10 +121,13 @@ class PaymentTransaction
 
                         $produit=$model::find($transaction->model_id);
                     
-                       
-                        $paiement->buy_product($produit,$transaction->user_id);
+                        @file_put_contents(storage_path(). $filename, PHP_EOL . date("Y-m-d H:i:s") . ": " . PHP_EOL . "---------" . PHP_EOL . print_r(  $produit, true) . PHP_EOL . "---------", FILE_APPEND);
 
-                        $paiement->alimentation($transaction->user,$amount,$meta);
+                        $retour=$paiement->buy_product($produit,$transaction->user_id);
+                        
+                        @file_put_contents(storage_path(). $filename, PHP_EOL . date("Y-m-d H:i:s") . ": " . PHP_EOL . "---------" . PHP_EOL . print_r(  $retour, true) . PHP_EOL . "---------", FILE_APPEND);
+                    
+                       
                    
                     
                // }
