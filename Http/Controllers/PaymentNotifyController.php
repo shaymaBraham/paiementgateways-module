@@ -170,7 +170,9 @@ class PaymentNotifyController extends Controller
             $new_object_request->id=$transaction->id;
             $new_object_request=$request->redirect_url;
 
-            return redirect()->action('PaymentNotifyController@success',[$new_object_request]);
+            return redirect()
+            ->action('Modules\PaiementGateways\Http\Controllers\PaymentNotifyController@success',
+              [$new_object_request]);
 
 
 
@@ -201,7 +203,9 @@ class PaymentNotifyController extends Controller
             $new_object_request->id=$transaction->id;
             $new_object_request->redirect_url=$request->redirect_url;
 
-            return redirect()->action('PaymentNotifyController@success',[$new_object_request]);
+            return redirect()
+            ->action('Modules\PaiementGateways\Http\Controllers\PaymentNotifyController@success',
+            [$new_object_request]);
 
 
 
@@ -228,7 +232,9 @@ class PaymentNotifyController extends Controller
             $new_object_request->id=$transaction->id;
             $new_object_request->redirect_url=$request->redirect_url;
 
-            return redirect()->action('PaymentNotifyController@refuse',[$new_object_request]);
+            return redirect()
+            ->action('Modules\PaiementGateways\Http\Controllers\PaymentNotifyController@refuse',
+            [$new_object_request]);
 
 
 
