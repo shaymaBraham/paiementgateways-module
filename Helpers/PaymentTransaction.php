@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use GuzzleHttp\Psr7;
 use GuzzleHttp\Client;
 use App\Models\User;
+use Illuminate\Support\Facades\File;
 
 //use App\Models\Paiement;
 //use App\Models\Transaction;
@@ -92,7 +93,6 @@ class PaymentTransaction
                 else
                 {*/
                     //alimentation solde
-                    //PortMonnaieHelper::updateSolde($transaction->user,$transaction);
 
                     $amount=$transaction->montant;
                     $payment_method  = ModePaiement::find($transaction->mode_paiement);
@@ -104,11 +104,11 @@ class PaymentTransaction
 
 
                     ];
-                    $path=storage_path()."/paypam/".$dt->year."/".$dt->month."/".$dt->day;
+                    $path=storage_path()."/buying/".$dt->year."/".$dt->month."/".$dt->day;
                     if(!File::isDirectory($path)){
                         File::makeDirectory($path, 0777, true, true);
                     }
-                    $filename= "/paypam/".$dt->year."/".$dt->month."/".$dt->day."/buyingproduct_".$dt->hour."_".$dt->minute."_".$dt->second.".log";
+                    $filename= "/buying/".$dt->year."/".$dt->month."/".$dt->day."/buyingproduct_".$dt->hour."_".$dt->minute."_".$dt->second.".log";
 
                     $paiement=new PorteMonnaieController();
 
