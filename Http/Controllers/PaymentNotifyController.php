@@ -165,7 +165,7 @@ class PaymentNotifyController extends Controller
         $log=[];
         try {
 
-            return redirect()->route('transaction.success',$transaction->id,$request->redirect_url);
+            return redirect()->route('transaction.success',['hash'=>$transaction->id,'redirect_url'=>$request->redirect_url]);
 
 
 
@@ -192,7 +192,7 @@ class PaymentNotifyController extends Controller
             $transaction = Paiement::findOrFail($transaction_id);
 
 
-            return redirect()->route('transaction.success',$transaction->id,$request->redirect_url);
+            return redirect()->route('transaction.success',['hash'=>$transaction->id,'redirect_url'=>$request->redirect_url]);
 
 
 
@@ -214,7 +214,7 @@ class PaymentNotifyController extends Controller
             $transaction = Paiement::findOrFail($transaction_id);
 
 
-            return redirect()->route('transaction.refuse',$transaction->id,$request->redirect_url);
+            return redirect()->route('transaction.refuse',['hash'=>$transaction->id,'redirect_url'=>$request->redirect_url]);
 
 
 
