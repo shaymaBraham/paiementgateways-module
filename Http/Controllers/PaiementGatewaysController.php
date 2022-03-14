@@ -21,7 +21,7 @@ use Modules\PaiementGateways\Entities\ModePaiement;
 class PaiementGatewaysController extends Controller
 {
    
-  public function depositWithGateway($user,$amount,$id_mode_paiement,$model=NULL,$model_id=NULL)
+  public function depositWithGateway($user,$amount,$id_mode_paiement,$redirect_url,$model=NULL,$model_id=NULL)
   {
 
        
@@ -43,7 +43,7 @@ class PaiementGatewaysController extends Controller
     $paiement->reference='TR'.sprintf("%06d", $paiement->id);
     $paiement->save();
   
-    return PaymentTransaction::directpayment($paiement->id,$id_mode_paiement);
+    return PaymentTransaction::directpayment($paiement->id,$id_mode_paiement,$redirect_url);
 
   }
     

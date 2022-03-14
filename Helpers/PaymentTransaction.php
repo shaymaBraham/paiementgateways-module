@@ -260,7 +260,7 @@ class PaymentTransaction
 
 
 
-        public static function getCheckoutData($transaction_id)
+        public static function getCheckoutData($transaction_id,$redirect_url)
         {
 
             try
@@ -284,12 +284,13 @@ class PaymentTransaction
                     'items' =>   $items,
                     // return url is the url where PayPal returns after user confirmed the payment
                     //'return_url' => url('/payment/paypal/express-checkout-success?price='.$price.'&cmd='.$cmd_id.'&mode='.$mode_paiement),
-                    'return_url' => url('/payment/paypal/express-checkout-success?tr='.$transaction->id),
+                    'return_url' => url('/payment/paypal/express-checkout-success?tr='.$transaction->id.'&redirect_url='.$redirect_url),
+                    
                     // every invoice id must be unique, else you'll get an error from paypal
                     'invoice_id' =>  $transaction->id ,
 
                     'invoice_description' => 'Paiment de '.$transaction->model.' ID:  '.$transaction->model_id ,
-                    'cancel_url' => url('/payment/paypal/express-checkout-refuse?tr='.$transaction->id),
+                    'cancel_url' => url('/payment/paypal/express-checkout-refuse?tr='.$transaction->id.'&redirect_url='.$redirect_url),
                     // total is calculated by multiplying price with quantity of all cart items and then adding them up
                     // in this case total is 20 because Product 1 costs 10 (price 10 * quantity 1) and Product 2 costs 10 (price 5 * quantity 2)
                     'total' => $transaction->montant,
@@ -302,7 +303,7 @@ class PaymentTransaction
             }
         }
 
-    public static function directpayment($transaction_id,$ModePaiement_id)
+    public static function directpayment($transaction_id,$ModePaiement_id,$redirect_url)
     {
         $transaction = Paiement::find($transaction_id);
         if (!$transaction)
@@ -368,7 +369,7 @@ class PaymentTransaction
                 if($code_dev=='PAYPAL')
                 {
                     $html='';
-                    $link_payment=route('paypal.express-checkout').'?transaction_id='.$transaction->id;
+                    $link_payment=route('paypal.express-checkout').'?transaction_id='.$transaction->id.'&redirect_url='.$redirect_url;
     
                 }
     
@@ -382,7 +383,8 @@ class PaymentTransaction
                     $append_html = view($templatepayment,
                     compact(
                         'transaction',
-                        'currency'
+                        'currency',
+                        'redirect_url'
                     ))->render();
     
                 }

@@ -72,7 +72,7 @@ class PaymentNotifyController extends Controller
             $currency_symbol='€';
         }
 
-        $cart=PaymentTransaction::getCheckoutData($transaction_id);
+        $cart=PaymentTransaction::getCheckoutData($transaction_id,$request->redirect_url);
         $options = [
             'SOLUTIONTYPE' => 'Sole',
             'LANDINGPAGE' => 'Billing',
@@ -158,14 +158,14 @@ class PaymentNotifyController extends Controller
            $paymenttransaction->TransactionRejected( $transaction->id,print_r( $response, true));
         }
 
-        $cart=PaymentTransaction::getCheckoutData($transaction_id);
+        $cart=PaymentTransaction::getCheckoutData($transaction_id,$request->redirect_url);
         $payment_status = $this->provider->doExpressCheckoutPayment($cart, $token, $PayerID);
         @file_put_contents(storage_path().'/pppayment_status.log',print_r(  $payment_status, true) .PHP_EOL . "---------", FILE_APPEND);
         $status = isset($payment_status['PAYMENTINFO_0_PAYMENTSTATUS'])?$payment_status['PAYMENTINFO_0_PAYMENTSTATUS']:'ERROR STATUS';
         $log=[];
         try {
 
-            return redirect()->route('transaction.success',$transaction->id);
+            return redirect()->route('transaction.success',$transaction->id,$request->redirect_url);
 
 
 
@@ -192,7 +192,7 @@ class PaymentNotifyController extends Controller
             $transaction = Paiement::findOrFail($transaction_id);
 
 
-            return redirect()->route('transaction.success',$transaction->id);
+            return redirect()->route('transaction.success',$transaction->id,$request->redirect_url);
 
 
 
@@ -214,7 +214,7 @@ class PaymentNotifyController extends Controller
             $transaction = Paiement::findOrFail($transaction_id);
 
 
-            return redirect()->route('transaction.refuse',$transaction->id);
+            return redirect()->route('transaction.refuse',$transaction->id,$request->redirect_url);
 
 
 
@@ -365,8 +365,8 @@ class PaymentNotifyController extends Controller
                 'line_items' =>  $items,
                 'mode' => 'payment',
                 "metadata"  =>  ["transaction_id"=>$transaction_id,"app_origine"=>"PLATEFORME"],
-                'success_url' => url('/payment/stripe/stripe-checkout-success?tr='.$transaction->id),
-                'cancel_url' => url('/payment/paypal/express-checkout-refuse?tr='.$transaction->id),
+                'success_url' => url('/payment/stripe/stripe-checkout-success?tr='.$transaction->id.'&redirect_url='.$request->redirect_url),
+                'cancel_url' => url('/payment/paypal/express-checkout-refuse?tr='.$transaction->id.'&redirect_url='.$request->redirect_url),
                 'payment_intent_data'=>[
                                         'metadata'=>  ["transaction_id"=>$transaction_id,"app_origine"=>"PLATEFORME"],
                                      ]
@@ -645,13 +645,13 @@ class PaymentNotifyController extends Controller
         }
     }
 
-    public function success($id){
+    public function success($id,$redirect_url){
 
         $transaction = Paiement::where('id', $id)
         ->firstOrFail();
         if (auth()->check())
         {
-            return redirect()->route('portemonnaie.index')
+            return redirect()->route($redirect_url)
             ->withStatus(__('Votre transaction est réussie!').' - '.__('Une confirmation de votre commande vous sera envoyée par e-mail!') );
         }
         else
@@ -662,7 +662,7 @@ class PaymentNotifyController extends Controller
 
     }
 
-    public function refuse($id){
+    public function refuse($id,$redirect_url){
 
         $transaction = Paiement::where('id', $id)
         ->firstOrFail();
@@ -671,7 +671,7 @@ class PaymentNotifyController extends Controller
         $transaction->save();*/
         if (auth()->check())
         {
-            return redirect()->route('portemonnaie.index')
+            return redirect()->route($redirect_url)
             ->withError(__('Annulation de paiment').'- Transaction REF: '.$transaction->id );
         }
         else
