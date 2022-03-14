@@ -7,6 +7,7 @@ use Carbon\Carbon;
 
 use GuzzleHttp\Psr7;
 use GuzzleHttp\Client;
+use App\Models\User;
 
 //use App\Models\Paiement;
 //use App\Models\Transaction;
