@@ -54,6 +54,7 @@ class PaymentNotifyController extends Controller
 
     public function paypalPayment(Request $request)
     {
+        dd($request);
 
         $transaction_id=$request->transaction_id;
         $provider = new ExpressCheckout();
