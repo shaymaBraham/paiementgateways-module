@@ -54,7 +54,7 @@ class PaymentNotifyController extends Controller
 
     public function paypalPayment(Request $request)
     {
-        dd($request);
+        //dd($request);
 
         $transaction_id=$request->transaction_id;
         $provider = new ExpressCheckout();
@@ -79,9 +79,9 @@ class PaymentNotifyController extends Controller
             'LANDINGPAGE' => 'Billing',
             'USERSELECTEDFUNDINGSOURCE' => 'CreditCard',
             ];
-
+dd($cart);
         $response = $provider->setCurrency($currency)->addOptions($options)->setExpressCheckout($cart, false);
-
+//dd($response);
         // if there is no link redirect back with error message
         if (!$response['paypal_link']) {
 
