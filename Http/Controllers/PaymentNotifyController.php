@@ -165,7 +165,11 @@ class PaymentNotifyController extends Controller
         $log=[];
         try {
 
-            return redirect()->route('transaction.success',['hash'=>$transaction->id,'redirect_url'=>$request->redirect_url]);
+            $new_object_request=new Request();
+            $new_object_request->id=$transaction->id;
+            $new_object_request=$request->redirect_url;
+
+            return redirect()->action('PaymentNotifyController@success',[$new_object_request]);
 
 
 
@@ -192,7 +196,12 @@ class PaymentNotifyController extends Controller
             $transaction = Paiement::findOrFail($transaction_id);
 
 
-            return redirect()->route('transaction.success',['hash'=>$transaction->id,'redirect_url'=>$request->input('redirect_url')]);
+            $new_object_request=new Request();
+            $new_object_request->id=$transaction->id;
+            $new_object_request->redirect_url=$request->redirect_url;
+
+            return redirect()->action('PaymentNotifyController@success',[$new_object_request]);
+
 
 
 
@@ -214,7 +223,11 @@ class PaymentNotifyController extends Controller
             $transaction = Paiement::findOrFail($transaction_id);
 
 
-            return redirect()->route('transaction.refuse',['hash'=>$transaction->id,'redirect_url'=>$request->input('redirect_url')]);
+            $new_object_request=new Request();
+            $new_object_request->id=$transaction->id;
+            $new_object_request->redirect_url=$request->redirect_url;
+
+            return redirect()->action('PaymentNotifyController@refuse',[$new_object_request]);
 
 
 
@@ -645,13 +658,13 @@ class PaymentNotifyController extends Controller
         }
     }
 
-    public function success($id,$redirect_url){
+    public function success(Request $request){
 
-        $transaction = Paiement::where('id', $id)
+        $transaction = Paiement::where('id', $request->id)
         ->firstOrFail();
         if (auth()->check())
         {
-            return redirect(urldecode($redirect_url))
+            return redirect(urldecode($request->redirect_url))
             ->withStatus(__('Votre transaction est réussie!').' - '.__('Une confirmation de votre commande vous sera envoyée par e-mail!') );
         }
         else
