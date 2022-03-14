@@ -111,15 +111,14 @@ class PaymentTransaction
 
                     ///if(model exists)=> ( plus transaction de achat  )
 
-                    if($transaction->model != NULL && $transaction->model_id != NULL)
-                    {
+                   
                         $model=get_class($transaction->model);
 
                         $produit=$model::find($transaction->model_id);
                     
-
-                        $paiement->buy_product($produit);
-                    }
+                       $user_transaction=User::find($transaction->user_id);
+                        $paiement->buy_product($produit,$user_transaction);
+                   
                     
                // }
 
