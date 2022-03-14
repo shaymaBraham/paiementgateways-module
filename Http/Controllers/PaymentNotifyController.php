@@ -81,7 +81,7 @@ class PaymentNotifyController extends Controller
             ];
 
         $response = $provider->setCurrency($currency)->addOptions($options)->setExpressCheckout($cart, false);
-dd($response);
+
         // if there is no link redirect back with error message
         if (!$response['paypal_link']) {
 
