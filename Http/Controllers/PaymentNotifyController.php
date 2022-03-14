@@ -166,15 +166,14 @@ class PaymentNotifyController extends Controller
         $log=[];
         try {
 
-            $new_object_request=new Request();
+            $new_object_request=new \StdClass();
             $new_object_request->id=$transaction_id;
             $new_object_request->redirect_url=$request->redirect_url;
 
-            dd($new_object_request);
+            //dd($new_object_request);
 
-            /*return redirect()
-            ->action('\Modules\PaiementGateways\Http\Controllers\PaymentNotifyController@success',
-              [$new_object_request]);*/
+            return redirect()->route('transaction.success')->with('myrequest', $new_object_request);
+          
 
 
 
@@ -201,14 +200,14 @@ class PaymentNotifyController extends Controller
             $transaction = Paiement::findOrFail($transaction_id);
 
 
-            $new_object_request=new Request();
-            $new_object_request->id=$transaction->id;
+            $new_object_request=new \StdClass();
+            $new_object_request->id=$transaction_id;
             $new_object_request->redirect_url=$request->redirect_url;
 
-            return redirect()
-            ->action('\Modules\PaiementGateways\Http\Controllers\PaymentNotifyController@success',
-            [$new_object_request]);
+            //dd($new_object_request);
 
+            return redirect()->route('transaction.success')->with('myrequest', $new_object_request);
+          
 
 
 
@@ -229,15 +228,14 @@ class PaymentNotifyController extends Controller
         try {
             $transaction = Paiement::findOrFail($transaction_id);
 
-
-            $new_object_request=new Request();
-            $new_object_request->id=$transaction->id;
+            $new_object_request=new \StdClass();
+            $new_object_request->id=$transaction_id;
             $new_object_request->redirect_url=$request->redirect_url;
 
-            return redirect()
-            ->action('\Modules\PaiementGateways\Http\Controllers\PaymentNotifyController@refuse',
-            [$new_object_request]);
+            //dd($new_object_request);
 
+            return redirect()->route('transaction.refuse')->with('myrequest', $new_object_request);
+          
 
 
         } catch (ModelNotFoundException $e) {
@@ -668,16 +666,19 @@ class PaymentNotifyController extends Controller
     }
 
     public function success(Request $request){
-        dd($request);
-
-        $transaction = Paiement::where('id', $request->id)
+        if(Session::get('myrequest')) 
+        $myrequest = Session::get('myrequest');
+        
+         // dd($myrequest);
+        $transaction = Paiement::where('id', $myrequest->id)
         ->firstOrFail();
         if (auth()->check())
         {
-            return redirect(urldecode($request->redirect_url))
+            return redirect($myrequest->redirect_url)
             ->withStatus(__('Votre transaction est réussie!').' - '.__('Une confirmation de votre commande vous sera envoyée par e-mail!') );
         }
         else
+       
         {
             return redirect()->route('/')
             ->withStatus(__('Votre transaction est réussie!').' - '.__('Une confirmation de votre commande vous sera envoyée par e-mail!') );
@@ -687,14 +688,18 @@ class PaymentNotifyController extends Controller
 
     public function refuse(Request $request){
 
-        $transaction = Paiement::where('id', $request->id)
+        if(Session::get('myrequest')) 
+        $myrequest = Session::get('myrequest');
+        
+         // dd($myrequest);
+        $transaction = Paiement::where('id', $myrequest->id)
         ->firstOrFail();
        /* $transaction->status = 4;
         $transaction->payment_response="ANNULATION DU CLIENT";
         $transaction->save();*/
         if (auth()->check())
         {
-            return redirect(urldecode($redirect_url))
+            return redirect($redirect_url)
             ->withError(__('Annulation de paiment').'- Transaction REF: '.$transaction->id );
         }
         else
