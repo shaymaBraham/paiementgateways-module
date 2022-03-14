@@ -170,9 +170,11 @@ class PaymentNotifyController extends Controller
             $new_object_request->id=$transaction->id;
             $new_object_request=$request->redirect_url;
 
-            return redirect()
+            dd($new_object_request);
+
+            /*return redirect()
             ->action('\Modules\PaiementGateways\Http\Controllers\PaymentNotifyController@success',
-              [$new_object_request]);
+              [$new_object_request]);*/
 
 
 
