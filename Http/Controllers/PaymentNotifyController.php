@@ -666,6 +666,7 @@ class PaymentNotifyController extends Controller
     }
 
     public function success(Request $request){
+        dd($request);
 
         $transaction = Paiement::where('id', $request->id)
         ->firstOrFail();
@@ -682,9 +683,9 @@ class PaymentNotifyController extends Controller
 
     }
 
-    public function refuse($id,$redirect_url){
+    public function refuse(Request $request){
 
-        $transaction = Paiement::where('id', $id)
+        $transaction = Paiement::where('id', $request->id)
         ->firstOrFail();
        /* $transaction->status = 4;
         $transaction->payment_response="ANNULATION DU CLIENT";
