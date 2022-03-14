@@ -167,8 +167,8 @@ class PaymentNotifyController extends Controller
         try {
 
             $new_object_request=new Request();
-            $new_object_request->id=$transaction->id;
-            $new_object_request=$request->redirect_url;
+            $new_object_request->id=$transaction_id;
+            $new_object_request->redirect_url=$request->redirect_url;
 
             dd($new_object_request);
 
