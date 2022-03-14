@@ -108,7 +108,7 @@ class PaymentTransaction
                     
                     $paiement=new PorteMonnaieController();
 
-                    $paiement->alimentation($transaction->user,$amount,$meta);
+                    
 
                     ///if(model exists)=> ( plus transaction de achat  )
 
@@ -117,8 +117,10 @@ class PaymentTransaction
 
                         $produit=$model::find($transaction->model_id);
                     
-                       $user_transaction=User::find($transaction->user_id);
-                        $paiement->buy_product($produit,$user_transaction);
+                       
+                        $paiement->buy_product($produit,$transaction->user_id);
+
+                        $paiement->alimentation($transaction->user,$amount,$meta);
                    
                     
                // }
