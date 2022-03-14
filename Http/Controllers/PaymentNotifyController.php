@@ -651,7 +651,7 @@ class PaymentNotifyController extends Controller
         ->firstOrFail();
         if (auth()->check())
         {
-            return redirect($redirect_url)
+            return redirect(urldecode($redirect_url))
             ->withStatus(__('Votre transaction est réussie!').' - '.__('Une confirmation de votre commande vous sera envoyée par e-mail!') );
         }
         else
@@ -671,7 +671,7 @@ class PaymentNotifyController extends Controller
         $transaction->save();*/
         if (auth()->check())
         {
-            return redirect($redirect_url)
+            return redirect(urldecode($redirect_url))
             ->withError(__('Annulation de paiment').'- Transaction REF: '.$transaction->id );
         }
         else
