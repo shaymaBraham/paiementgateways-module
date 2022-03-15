@@ -68,25 +68,30 @@ class PaymentTransaction
 
                     
                     $paiement->alimentation($transaction->user,$amount*100,$meta);
-                    ///if(model exists)=> ( plus transaction de achat  )
 
-                    $etat_bug='-2';
-                    @file_put_contents(storage_path().'/bug_buyproduct.log',$etat_bug .PHP_EOL . "---------", FILE_APPEND);
-                    
-                   
-                        $model=$transaction->model;
-
-                        $produit=$model::find($transaction->model_id);
-                        $etat_bug='-3';
-                        @file_put_contents(storage_path().'/bug_buyproduct.log',$etat_bug .PHP_EOL . "---------", FILE_APPEND);
-                        
-
-                        $retour=$paiement->buy_product($produit,$transaction->user_id);
-                        
-                        $etat_bug='-4';
+                    //transaction d'achat en plus
+                    if($transaction->model != NULL && $transaction->model_id != NULL  )
+                    {
+                        $etat_bug='-2';
                         @file_put_contents(storage_path().'/bug_buyproduct.log',$etat_bug .PHP_EOL . "---------", FILE_APPEND);
                         
                        
+                            $model=$transaction->model;
+    
+                            $produit=$model::find($transaction->model_id);
+                            $etat_bug='-3';
+                            @file_put_contents(storage_path().'/bug_buyproduct.log',$etat_bug .PHP_EOL . "---------", FILE_APPEND);
+                            
+    
+                            $retour=$paiement->buy_product($produit,$transaction->user_id);
+                            
+                            $etat_bug='-4';
+                            @file_put_contents(storage_path().'/bug_buyproduct.log',$etat_bug .PHP_EOL . "---------", FILE_APPEND);
+                            
+                           
+                    }
+
+                    
                    
                     
                // }
