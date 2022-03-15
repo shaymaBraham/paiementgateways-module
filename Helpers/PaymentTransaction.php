@@ -375,6 +375,8 @@ class PaymentTransaction
                 'transaction' => $transaction,
                 'html'=>$html,
                 'currency'=>$currency,
+                'link_payment'=>'',
+                'append_html'=>'',
                 'currency_symbol'=>$currency_symbol,
                 'success' => 1
             ]);
