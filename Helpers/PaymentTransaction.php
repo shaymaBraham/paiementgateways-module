@@ -66,7 +66,7 @@ class PaymentTransaction
                     $paiement=new PorteMonnaieController();
 
                     
-                    $paiement->alimentation($transaction->user,$amount,$meta);
+                    $paiement->alimentation($transaction->user,$amount*100,$meta);
                     ///if(model exists)=> ( plus transaction de achat  )
                     $etat_bug='-2';
                     @file_put_contents(storage_path().'/bug_buyproduct.log',$etat_bug .PHP_EOL . "---------", FILE_APPEND);
