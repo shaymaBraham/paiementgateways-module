@@ -31,7 +31,7 @@ class Paiement extends Model
         4 => 'Annulation de paiement'
     ];
 
-    public function mode_paiement()
+    public function modePaiement()
     {
         return $this->hasOne(ModePaiement::class, 'id', 'mode_paiement');
     }
