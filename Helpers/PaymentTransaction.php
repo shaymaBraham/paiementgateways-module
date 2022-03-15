@@ -63,11 +63,13 @@ class PaymentTransaction
                     ];
                     $etat_bug='-1';
                    @file_put_contents(storage_path().'/bug_buyproduct.log',$etat_bug .PHP_EOL . "---------", FILE_APPEND);
-                    $paiement=new PorteMonnaieController();
+                   
+                   $paiement=new PorteMonnaieController();
 
                     
                     $paiement->alimentation($transaction->user,$amount*100,$meta);
                     ///if(model exists)=> ( plus transaction de achat  )
+
                     $etat_bug='-2';
                     @file_put_contents(storage_path().'/bug_buyproduct.log',$etat_bug .PHP_EOL . "---------", FILE_APPEND);
                     
@@ -369,17 +371,64 @@ class PaymentTransaction
         }
         else{
 
-            $html='<h4> votre paiement par portemonnaie est passé avec succée </h4>';
+           
 
-            return response()->json([
-                'transaction' => $transaction,
-                'html'=>$html,
-                'currency'=>$currency,
-                'link_payment'=>'',
-                'append_html'=>'',
-                'currency_symbol'=>$currency_symbol,
-                'success' => 1
-            ]);
+            
+                $transaction->status = 1;
+                $transaction->payment_response=$payment_response;
+                $transaction->save();
+               
+                    //alimentation solde
+
+                    $amount=$transaction->montant;
+                    
+                    $etat_bug='-1';
+                   @file_put_contents(storage_path().'/bug_buywallet.log',$etat_bug .PHP_EOL . "---------", FILE_APPEND);
+                   
+                   $paiement=new PorteMonnaieController();
+                    
+                 
+                    ///if(model exists)=> ( plus transaction de achat  )
+                    
+                    $etat_bug='-2';
+                    @file_put_contents(storage_path().'/bug_buywallet.log',$etat_bug .PHP_EOL . "---------", FILE_APPEND);
+                    
+                   
+                        $model=$transaction->model;
+
+                        $produit=$model::find($transaction->model_id);
+                        $etat_bug='-3';
+                        @file_put_contents(storage_path().'/bug_buywallet.log',$etat_bug .PHP_EOL . "---------", FILE_APPEND);
+                        
+
+                        $retour=$paiement->buy_product($produit,$transaction->user_id);
+                        if($retour)
+                        {
+                            $html='<h4> votre paiement par portemonnaie est passé avec succée </h4>';
+                            return response()->json([
+                                'transaction' => $transaction,
+                                'html'=>$html,
+                                'currency'=>$currency,
+                                'link_payment'=>'',
+                                'append_html'=>'',
+                                'currency_symbol'=>$currency_symbol,
+                                'success' => 1
+                            ]);
+                        }
+                        else{
+                            $html='<h4> problème de paiement par portemonnaie </h4>';
+                            return response()->json([
+                                'transaction' => $transaction,
+                                'html'=>$html,
+                                'currency'=>$currency,
+                                'link_payment'=>'',
+                                'append_html'=>'',
+                                'currency_symbol'=>$currency_symbol,
+                                'success' => 0
+                            ]);
+                        }
+
+            
         }
       
 
