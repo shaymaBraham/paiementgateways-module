@@ -23,7 +23,7 @@
             },
             body: JSON.stringify({
                     transaction_id: {{$transaction->id}},
-                    redirect_url : {{$redirect_url}}
+                    redirect_url : "{{$redirect_url}}"
                 })
             })
             .then(function (response) {
