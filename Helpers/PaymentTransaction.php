@@ -374,9 +374,7 @@ class PaymentTransaction
            
 
             
-                $transaction->status = 1;
-                $transaction->payment_response=$payment_response;
-                $transaction->save();
+               
                
                     //alimentation solde
 
@@ -403,7 +401,10 @@ class PaymentTransaction
 
                         $retour=$paiement->buy_product($produit,$transaction->user_id);
                         if($retour)
-                        {
+                        { 
+                            $transaction->status = 1;
+                           
+                            $transaction->save();
                             $html='<h4> votre paiement par portemonnaie est passé avec succée </h4>';
                             return response()->json([
                                 'transaction' => $transaction,
@@ -416,6 +417,10 @@ class PaymentTransaction
                             ]);
                         }
                         else{
+
+                            $transaction->status = 2;
+                            
+                            $transaction->save();
                             $html='<h4> problème de paiement par portemonnaie </h4>';
                             return response()->json([
                                 'transaction' => $transaction,
