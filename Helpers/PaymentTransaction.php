@@ -380,27 +380,20 @@ class PaymentTransaction
 
                     $amount=$transaction->montant;
                     
-                    $etat_bug='-1';
-                   @file_put_contents(storage_path().'/bug_buywallet.log',$etat_bug .PHP_EOL . "---------", FILE_APPEND);
                    
                    $paiement=new PorteMonnaieController();
                     
                  
                     ///if(model exists)=> ( plus transaction de achat  )
                     
-                    $etat_bug='-2';
-                    @file_put_contents(storage_path().'/bug_buywallet.log',$etat_bug .PHP_EOL . "---------", FILE_APPEND);
-                    
                    
                         $model=$transaction->model;
 
                         $produit=$model::find($transaction->model_id);
-                        $etat_bug='-3';
-                        @file_put_contents(storage_path().'/bug_buywallet.log',$etat_bug .PHP_EOL . "---------", FILE_APPEND);
-                        
+                      
 
                         $retour=$paiement->buy_product($produit,$transaction->user_id);
-                        dd($retour);
+                        
                         if($retour)
                         { 
                             $transaction->status = 1;
