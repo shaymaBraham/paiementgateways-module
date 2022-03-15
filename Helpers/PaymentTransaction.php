@@ -72,7 +72,7 @@ class PaymentTransaction
                     @file_put_contents(storage_path().'/bug_buyproduct.log',$etat_bug .PHP_EOL . "---------", FILE_APPEND);
                     
                    
-                        $model=get_class($transaction->model);
+                        $model=$transaction->model;
 
                         $produit=$model::find($transaction->model_id);
                         $etat_bug='-3';
