@@ -400,6 +400,7 @@ class PaymentTransaction
                         
 
                         $retour=$paiement->buy_product($produit,$transaction->user_id);
+                        dd($retour);
                         if($retour)
                         { 
                             $transaction->status = 1;
