@@ -48,50 +48,7 @@ class PaymentTransaction
                 $transaction->status = 1;
                 $transaction->payment_response=$payment_response;
                 $transaction->save();
-                //\LogActivity::addToLog("CONFIRMED TRANSACTION & CREATE PAIMENT",
-                //    ['payment_id'=>$payment->id,'transaction_id'=>$transaction->id],$payment);
-
-                //send notification application confirmation paiment
-               /* if ( $transaction->modele_type==get_class(new Facture()))
-                {
-                    //create paiement facture
-                    $facture=Facture::find($transaction->modele_id );
-                    if ($facture)
-                    {
-                        if ($facture->rest_a_paye == $transaction->mnt_debit) {
-                            $facture->status = Facture::STATUS_COMPLETE;
-                            $facture->status_paye = Facture::STATUS_PAYEE;
-                            $facture->rest_a_paye = 0;
-                        } elseif ( $facture->rest_a_paye != $transaction->mnt_debit) {
-                            $facture->rest_a_paye = (double)$facture->rest_a_paye - (double)$transaction->mnt_debit;
-                            if ($facture->rest_a_paye < 0) {
-
-                                
-                                $facture->rest_a_paye=0;
-                                $facture->status = Facture::STATUS_COMPLETE;
-                                $facture->status_paye = Facture::STATUS_PAYEE;
-                            }
-                            else
-                            {
-                                $facture->status_paye = Facture::STATUS_PARTIELLEMENT_PAYEE;
-                            }
-                        }
-                        $facture->save();
-                        $payment = Paiement::create([
-                            'date'              =>$payment_date,
-                            'info'              =>'',
-                            'montant'           =>$transaction->mnt_debit,
-                            'user_id'           =>$transaction->id_user,
-                            'facture_id'        =>$facture->id,
-                            'mode_paiement_id'  =>$transaction->id_mode_paiement,
-
-                        ]);
-                        $payment->unique_hash=str_random(60).$payment->id;
-                        $payment->save();
-                    }
-                }
-                else
-                {*/
+               
                     //alimentation solde
 
                     $amount=$transaction->montant;
@@ -104,29 +61,29 @@ class PaymentTransaction
 
 
                     ];
-                    $path=storage_path()."/buying/".$dt->year."/".$dt->month."/".$dt->day;
-                    if(!File::isDirectory($path)){
-                        File::makeDirectory($path, 0777, true, true);
-                    }
-                    $filename= "/buying/".$dt->year."/".$dt->month."/".$dt->day."/buyingproduct_".$dt->hour."_".$dt->minute."_".$dt->second.".log";
-
+                    $etat_bug='-1';
+                   @file_put_contents(storage_path().'/bug_buyproduct.log',$etat_bug .PHP_EOL . "---------", FILE_APPEND);
                     $paiement=new PorteMonnaieController();
 
                     
                     $paiement->alimentation($transaction->user,$amount,$meta);
                     ///if(model exists)=> ( plus transaction de achat  )
-
+                    $etat_bug='-2';
+                    @file_put_contents(storage_path().'/bug_buyproduct.log',$etat_bug .PHP_EOL . "---------", FILE_APPEND);
+                    
                    
                         $model=get_class($transaction->model);
 
                         $produit=$model::find($transaction->model_id);
-                    
-                        @file_put_contents(storage_path(). $filename, PHP_EOL . date("Y-m-d H:i:s") . ": " . PHP_EOL . "---------" . PHP_EOL . print_r(  $produit, true) . PHP_EOL . "---------", FILE_APPEND);
+                        $etat_bug='-3';
+                        @file_put_contents(storage_path().'/bug_buyproduct.log',$etat_bug .PHP_EOL . "---------", FILE_APPEND);
+                        
 
                         $retour=$paiement->buy_product($produit,$transaction->user_id);
                         
-                        @file_put_contents(storage_path(). $filename, PHP_EOL . date("Y-m-d H:i:s") . ": " . PHP_EOL . "---------" . PHP_EOL . print_r(  $retour, true) . PHP_EOL . "---------", FILE_APPEND);
-                    
+                        $etat_bug='-4';
+                        @file_put_contents(storage_path().'/bug_buyproduct.log',$etat_bug .PHP_EOL . "---------", FILE_APPEND);
+                        
                        
                    
                     
@@ -296,7 +253,7 @@ class PaymentTransaction
                     'return_url' => url('/payment/paypal/express-checkout-success?tr='.$transaction->id.'&redirect_url='.$redirect_url),
                     
                     // every invoice id must be unique, else you'll get an error from paypal
-                    'invoice_id' =>  $transaction->id ,
+                    'invoice_id' =>  'ex-'.$transaction->id ,
 
                     'invoice_description' => 'Paiment de '.$transaction->model.' ID:  '.$transaction->model_id ,
                     'cancel_url' => url('/payment/paypal/express-checkout-refuse?tr='.$transaction->id.'&redirect_url='.$redirect_url),
