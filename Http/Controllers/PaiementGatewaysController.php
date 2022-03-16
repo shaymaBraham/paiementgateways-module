@@ -26,7 +26,7 @@ class PaiementGatewaysController extends Controller
 
        
 
-    //$id_mode_paiement=ModePaiement::where('code_dev',$code_dev_paiement)->first()->id;
+    
 
     $paiement=Paiement::create([
       'model_id' => $model_id,

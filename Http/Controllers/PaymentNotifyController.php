@@ -281,7 +281,8 @@ class PaymentNotifyController extends Controller
 
         if ($post['invoice']!="")
         {
-            $transaction_id = $post['invoice'];
+
+            $transaction_id = str_replace('ex-','',$post['invoice']);
 
             $datalogs['response']=print_r(  $post, true);
             try {
