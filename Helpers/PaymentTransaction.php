@@ -233,7 +233,7 @@ class PaymentTransaction
 
 
 
-        public static function getCheckoutData($transaction_id,$redirect_url)
+        public static function getCheckoutData($transaction_id,$redirect_url,$currency,$currency_symbol)
         {
 
             try

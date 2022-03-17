@@ -74,12 +74,13 @@ class PaymentNotifyController extends Controller
             $currency_symbol='€';
         }
 
-        $cart=PaymentTransaction::getCheckoutData($transaction_id,$request->redirect_url);
+        $cart=PaymentTransaction::getCheckoutData($transaction_id,$request->redirect_url,$currency,$currency_symbol);
         $options = [
             'SOLUTIONTYPE' => 'Sole',
             'LANDINGPAGE' => 'Billing',
             'USERSELECTEDFUNDINGSOURCE' => 'CreditCard',
             ];
+            
 
         $response = $provider->setCurrency($currency)->addOptions($options)->setExpressCheckout($cart, false);
 
