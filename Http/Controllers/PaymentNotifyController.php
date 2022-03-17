@@ -161,7 +161,7 @@ class PaymentNotifyController extends Controller
            $paymenttransaction->TransactionRejected( $transaction->id,print_r( $response, true));
         }
 
-        $cart=PaymentTransaction::getCheckoutData($transaction_id,$request->redirect_url);
+        $cart=PaymentTransaction::getCheckoutData($transaction_id,$request->redirect_url,$currency,$currency_symbol);
         $payment_status = $this->provider->doExpressCheckoutPayment($cart, $token, $PayerID);
         @file_put_contents(storage_path().'/pppayment_status.log',print_r(  $payment_status, true) .PHP_EOL . "---------", FILE_APPEND);
         $status = isset($payment_status['PAYMENTINFO_0_PAYMENTSTATUS'])?$payment_status['PAYMENTINFO_0_PAYMENTSTATUS']:'ERROR STATUS';
