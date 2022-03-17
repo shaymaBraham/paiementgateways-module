@@ -23,7 +23,9 @@
             },
             body: JSON.stringify({
                     transaction_id: {{$transaction->id}},
-                    redirect_url : "{{$redirect_url}}"
+                    redirect_url : "{{$redirect_url}}",
+                    currency: "{{$currency}}",
+                    currency_symbol : "{{$currency_symbol}}",
                 })
             })
             .then(function (response) {

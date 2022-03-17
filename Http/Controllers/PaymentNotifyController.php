@@ -60,10 +60,10 @@ class PaymentNotifyController extends Controller
         $transaction_id=$request->transaction_id;
         $provider = new ExpressCheckout();
 
-        $currency='EUR';
+      
 
-        $currency = config('paiementgateways.paiementConfig.currency');
-        $currency_symbol=config('paiementgateways.paiementConfig.symbole_devise');
+        $currency = $request->currency;
+        $currency_symbol=$request->currency_symbol;
         if (($currency=null) || ($currency==''))
         {
             $currency='EUR';
@@ -130,13 +130,13 @@ class PaymentNotifyController extends Controller
 
         $PayerID = $request->get('PayerID');
 
-
+       
 
         $transaction_id=$request->input('tr');
 
 
-        $currency = config('paiementgateways.paiementConfig.currency');
-        $currency_symbol=config('paiementgateways.paiementConfig.symbole_devise');
+        $currency = $request->input('currency');;
+        $currency_symbol=$request->input('currency_symbol');
         if (($currency=null) || ($currency==''))
         {
             $currency='EUR';
@@ -352,8 +352,8 @@ class PaymentNotifyController extends Controller
 
 
 
-                $currency = config('paiementgateways.paiementConfig.currency');
-                $currency_symbol=config('paiementgateways.paiementConfig.symbole_devise');
+                $currency = $request->currency;
+                $currency_symbol=$request->currency_symbol;
                 if (($currency=null) || ($currency==''))
                 {
                     $currency='EUR';

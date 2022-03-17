@@ -256,8 +256,7 @@ class PaymentTransaction
                 $cart= [
                     'items' =>   $items,
                     // return url is the url where PayPal returns after user confirmed the payment
-                    //'return_url' => url('/payment/paypal/express-checkout-success?price='.$price.'&cmd='.$cmd_id.'&mode='.$mode_paiement),
-                    'return_url' => url('/payment/paypal/express-checkout-success?tr='.$transaction->id.'&redirect_url='.$redirect_url),
+                    'return_url' => url('/payment/paypal/express-checkout-success?tr='.$transaction->id.'&redirect_url='.$redirect_url.'&currency='.$currency.'&currency_symbol='.$currency_symbol),
                     
                     // every invoice id must be unique, else you'll get an error from paypal
                     'invoice_id' =>  'ex-'.$transaction->id ,
@@ -276,7 +275,7 @@ class PaymentTransaction
             }
         }
 
-    public static function directpayment($transaction_id,$ModePaiement_id,$redirect_url)
+    public static function directpayment($transaction_id,$ModePaiement_id,$redirect_url,$currency,$currency_symbol)
     {
         $transaction = Paiement::find($transaction_id);
         if (!$transaction)
@@ -284,8 +283,6 @@ class PaymentTransaction
             return response()->json(['message'=>'Ressource Not Found'],403);
         }
 
-        $currency = config('paiementgateways.paiementConfig.currency');
-        $currency_symbol=config('paiementgateways.paiementConfig.symbole_devise');
         if (($currency=null) || ($currency==''))
         {
             $currency='EUR';
@@ -342,7 +339,7 @@ class PaymentTransaction
                 if($code_dev=='PAYPAL')
                 {
                     $html='';
-                    $link_payment=route('paypal.express-checkout').'?transaction_id='.$transaction->id.'&redirect_url='.$redirect_url;
+                    $link_payment=route('paypal.express-checkout').'?transaction_id='.$transaction->id.'&redirect_url='.$redirect_url.'&currency='.$currency.'&currency_symbol='.$currency_symbol;
     
                 }
     
@@ -357,7 +354,8 @@ class PaymentTransaction
                     compact(
                         'transaction',
                         'currency',
-                        'redirect_url'
+                        'redirect_url',
+                        'currency_symbol',
                     ))->render();
     
                 }
