@@ -1,7 +1,6 @@
 <?php
 namespace Modules\PaiementGateways\Helpers;
 
-//use PDF;
 
 use Carbon\Carbon;
 
@@ -10,20 +9,17 @@ use GuzzleHttp\Client;
 use App\Models\User;
 use Illuminate\Support\Facades\File;
 
-//use App\Models\Paiement;
-//use App\Models\Transaction;
 use Modules\PaiementGateways\Entities\ModePaiement;
 use Modules\PorteMonnaie\Entities\Item;
 use Modules\PorteMonnaie\Http\Controllers\PorteMonnaieController;
 use Modules\PaiementGateways\Entities\Paiement;
 
 
-/*use App\Mail\RefusePaymentDirect;
-use App\Helpers\PortMonnaieHelper;
-use App\Mail\PendingPaymentDirect;
-use App\Mail\SuccessPaymentDirect;*/
+use Modules\PaiementGateways\Emails\RefusePaymentDirect;
+use Modules\PaiementGateways\Emails\PendingPaymentDirect;
+use Modules\PaiementGateways\Emails\SuccessPaymentDirect;
+
 use Illuminate\Support\Facades\View;
-///use App\Http\Requests\TransactionRequest;
 use GuzzleHttp\Exception\RequestException;
 use Bavix\Wallet\Models\Transaction;
 
@@ -185,7 +181,7 @@ class PaymentTransaction
 
 
 
-            //\Mail::to($email)->send(new SuccessPaymentDirect($data));
+            \Mail::to($email)->send(new SuccessPaymentDirect($data));
 
 
 
