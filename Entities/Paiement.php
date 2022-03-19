@@ -21,7 +21,10 @@ class Paiement extends Model
                             'montant',
                             'reference',
                             'payment_response',
-                            'session_id'];
+                            'session_id',
+                            'frais_variable',
+                            'frais_fixe',    
+                            'callbackfunction'];
 
     public const STATUS_SELECT = [
         0 => 'En cours de paiement',

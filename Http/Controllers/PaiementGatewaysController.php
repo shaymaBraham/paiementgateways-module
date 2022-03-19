@@ -30,22 +30,22 @@ class PaiementGatewaysController extends Controller
       $this->currency_symbol=$currency_symbol;
       
   }
-
-  public function depositWithGateway($user,$amount,$id_mode_paiement,$redirect_url,$model=NULL,$model_id=NULL)
+  public function depositWithGateway($user,$amount,$frais_variable,$frais_fixe,$id_mode_paiement,$redirect_url,$model=NULL,$model_id=NULL,$callbackfunction=null)
   {
-
-       
-
-    
+   
 
     $paiement=Paiement::create([
       'model_id' => $model_id,
       'model'=> $model,
       'user_id'=> $user->id,
       'montant'=>$amount,
+      'frais_variable,'=>$frais_variable,
+      'frais_fixe'=>$frais_fixe,    
       'date'=>now(),
       'mode_paiement'=>$id_mode_paiement,
-      
+      'callbackfunction'=>$callbackfunction,
+
+
 
     ]);
     

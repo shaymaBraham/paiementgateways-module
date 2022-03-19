@@ -98,6 +98,10 @@ class PaymentTransaction
 
                 $this->sendSuccessDirect($transaction);
 
+                if($transaction->callbackfunction)
+                {
+                    call_user_func_array($transaction->callbackfunction,[$transaction->id,'Confirmed']);
+                }
 
                 return [
                     'success' => true
@@ -126,7 +130,10 @@ class PaymentTransaction
 
 
             $this->sendPendingDirect($transaction);
-
+           if($transaction->callbackfunction)
+            {
+                call_user_func_array($transaction->callbackfunction,[$transaction->id,'pending']);
+            }
 
             return [
                 'success' => true
@@ -148,7 +155,10 @@ class PaymentTransaction
            // PortMonnaieHelper::updateSolde($transaction->user,$transaction);
             $this->sendRefuseDirect($transaction);
 
-
+            if($transaction->callbackfunction)
+            {
+                call_user_func_array($transaction->callbackfunction,[$transaction->id,'pending']);
+            }
 
             return [
                 'success' => true
